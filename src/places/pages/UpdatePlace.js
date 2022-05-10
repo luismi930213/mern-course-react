@@ -6,6 +6,7 @@ import Button from '../../shared/FormElements/Button';
 import { VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE } from '../../shared/util/validators';
 import './PlaceForm.css'
 import { useForm } from '../../shared/hooks/form-hook';
+import Card from '../../shared/UIElements/Card';
 
 const DUMMY_PLACES = [
   {
@@ -51,22 +52,26 @@ const UpdatePlace = () => {
   const place = DUMMY_PLACES.find(p => p.id === placeId)
 
   useEffect(() => {
-    setData({
-      title: {
-        value: place?.title,
-        isValid: true
-      },
-      description: {
-        value: place?.description,
-        isValid: true
-      },
-    }, true);
+    if (!!place) {
+      setData({
+        title: {
+          value: place?.title,
+          isValid: true
+        },
+        description: {
+          value: place?.description,
+          isValid: true
+        },
+      }, true);
+    }
     setIsLoading(false)
   }, [setData, place])
 
   if (!place) {
     return <div className='center'>
-      <h2>Cloud not find the place!</h2>
+      <Card>
+        <h2>Cloud not find the place!</h2>
+      </Card>
     </div>
   }
 

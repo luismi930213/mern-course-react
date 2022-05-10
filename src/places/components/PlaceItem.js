@@ -8,8 +8,14 @@ import './PlaceItem.css';
 
 const PlaceItem = props => {
   const [showMap, setShowMap] = useState(false);
+  const [showConfirmModal, setConfirmModal] = useState(false);
 
   const mapHandler = () => setShowMap(!showMap);
+  const confirmHandler = () => setConfirmModal(!showConfirmModal);
+  const deleteHandler = () => {
+    setConfirmModal(false);
+    console.log('DELETING.......')
+  };
 
   return (
     <React.Fragment>
@@ -25,6 +31,14 @@ const PlaceItem = props => {
           <Map />
         </div>
       </Modal>
+      <Modal header='Warning!!' footerClass="place-item__modal-actions"
+        show={showConfirmModal}
+        footer={<React.Fragment>
+          <Button danger onClick={deleteHandler}>OK</Button>
+          <Button inverse onClick={confirmHandler}>Cancel</Button>
+        </React.Fragment>}>
+        <p>Are you sure, this can't be undone!</p>
+      </Modal>
       <li className="place-item">
         <Card className="place-item__content">
           <div className="place-item__image">
@@ -38,7 +52,7 @@ const PlaceItem = props => {
           <div className="place-item__actions">
             <Button inverse onClick={mapHandler}>VIEW ON MAP</Button>
             <Button to={`/places/${props.place.id}`}>EDIT</Button>
-            <Button danger>DELETE</Button>
+            <Button danger onClick={confirmHandler}>DELETE</Button>
           </div>
         </Card>
       </li>
